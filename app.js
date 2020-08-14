@@ -1,10 +1,18 @@
 // listen for submit
 // get the loan-form and its input and add event listener when submitted with 
 //calculateResults function as action
-document.getElementById('loan-form').addEventListener('submit', calculateResults);
+document.getElementById('loan-form').addEventListener('submit', 
+function(e){
+    
+    // show loader
+    document.getElementById('loading').style.display = 'block';
+
+    setTimeout(calculateResults, 2000);
+    e.preventDefault();
+});
 
 // calculate results
-function calculateResults(e){
+function calculateResults(){
     // UI vars
     // gets the first input id = amount
     const amount = document.getElementById('amount');
@@ -30,14 +38,21 @@ function calculateResults(e){
         monthlyPayment.value = monthly.toFixed(2);
         totalPayment.value = (monthly * calculatePayments).toFixed(2);
         totalInterest.value = ((monthly * calculatePayments)- principal).toFixed(2);
+        // change results style from display:none to block
+        document.getElementById('results').style.display = 'block';
+        // hide loader
+        document.getElementById('loading').style.display = 'none';
     }else{
         showError('Please check your numbers');
     }
-    e.preventDefault();
 }
 
 // show error
 function showError(error){
+    // change results style from display:none to block
+    document.getElementById('results').style.display = 'none';
+    // hide loader
+    document.getElementById('loading').style.display = 'none';
     //create div
     const errorDiv = document.createElement('div');
     // add class / class from bootstrap
